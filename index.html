@@ -1,50 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>4DX Training Scoreboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>🪖 TRAINING HOURS MISSION</h1>
+<h1>🪖 TRAINING HOURS MISSION</h1>
 
-  <div id="team-progress">
-    TEAM PROGRESS: <span id="teamPercent">0%</span>
-  </div>
+<div id="team-summary">
+  Team Progress: <span id="teamPercent">0%</span>
+</div>
 
-  <div id="scoreboard"></div>
+<div id="legend">
+  <span class="weekly-line"></span> Weekly Lead Measure Target
+</div>
 
-  <script src="data.js"></script>
-  <script>
-    const board = document.getElementById("scoreboard");
+<div id="scoreboard"></div>
 
-    let total = 0;
-
-    team.forEach(member => {
-      total += member.percent;
-
-      const row = document.createElement("div");
-      row.className = "lane";
-
-      row.innerHTML = `
-        <span class="name">${member.name}</span>
-        <div class="track">
-          <a href="${member.form}" target="_blank"
-             class="avatar"
-             style="left:${member.percent}%">
-            <img src="${member.avatar}" />
-          </a>
-        </div>
-        <span class="percent">${member.percent}%</span>
-      `;
-
-      board.appendChild(row);
-    });
-
-    document.getElementById("teamPercent").innerText =
-      Math.round(total / team.length) + "%";
-  </script>
-
+<script src="app.js"></script>
 </body>
 </html>
