@@ -19,16 +19,16 @@ const AVATAR_URL = "https://firstliberty.org/wp-content/uploads/2021/10/Navy-Sea
 ========================= */
 
 let team = [
-  { name: "ALPHA",   hours: 120, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "BRAVO",   hours: 95,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "CHARLIE", hours: 80,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "DELTA",   hours: 150, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "ECHO",    hours: 100, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "FOXTROT", hours: 110, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "GOLF",    hours: 90,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "HOTEL",   hours: 70,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "INDIA",   hours: 130, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "JULIET",  hours: 105, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" }
+  { name: "Rick Rife",   hours: 120, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Liam Crabtree",   hours: 95,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Mike Welborn", hours: 80,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Ian Bugbee",   hours: 150, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Mike Chambliss",    hours: 100, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Daniel Cowan", hours: 110, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Kevin Youngblood",    hours: 90,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Phillip Norris",   hours: 70,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Richard Osborne",   hours: 130, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
+  { name: "Marcus Smith",  hours: 105, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" }
 ];
 
 const board = document.getElementById("scoreboard");
