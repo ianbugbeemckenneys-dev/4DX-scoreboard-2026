@@ -3,6 +3,8 @@ body {
   text-align: center;
   background-color: #0b1220;
   color: white;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -16,53 +18,57 @@ h1 {
   font-weight: bold;
 }
 
-/* 🇺🇸 CINEMATIC FLAG */
+/* 🇺🇸 FLAG PROGRESS SYSTEM */
 
 .flag-wrapper {
   position: relative;
   width: 420px;
+  max-width: 90%;
   margin: 0 auto 30px auto;
   overflow: hidden;
+  border-radius: 10px;
+  animation: wave 6s ease-in-out infinite;
 }
 
-.flag-base {
+.flag-grey,
+.flag-color {
   width: 100%;
   display: block;
-  filter: grayscale(100%) brightness(45%);
   border-radius: 10px;
-  animation: wave 4s infinite ease-in-out;
 }
 
+/* Grey base */
+.flag-grey {
+  filter: grayscale(100%) brightness(45%);
+}
+
+/* Color overlay */
 .flag-color {
   position: absolute;
-  inset: 0;
-  background-image: url("Flag_of_the_United_States.png");
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
+  top: 0;
+  left: 0;
 
   /* Start fully hidden */
   clip-path: inset(100% 0 0 0);
 
-  animation: wave 4s infinite ease-in-out;
   transition: clip-path 1s ease;
 }
 
-/* Subtle wave motion */
+/* Subtle wave animation */
 @keyframes wave {
-  0%   { transform: translateX(0px) }
-  50%  { transform: translateX(3px) }
-  100% { transform: translateX(0px) }
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(3px); }
+  100% { transform: translateX(0px); }
 }
 
 /* Weekly Marker */
-
 .weekly-marker {
   margin-bottom: 20px;
   color: #38bdf8;
   font-weight: bold;
 }
 
+/* Scoreboard */
 #scoreboard {
   display: flex;
   flex-wrap: wrap;
