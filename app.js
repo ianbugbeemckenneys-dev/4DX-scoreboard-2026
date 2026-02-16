@@ -38,6 +38,10 @@ function updateTeamProgress() {
 
   document.getElementById("teamHours").innerText = total;
   document.getElementById("teamPercent").innerText = percent;
+
+  // 🇺🇸 Update flag fill
+  const flagFill = document.getElementById("flagFill");
+  flagFill.style.height = percent + "%";
 }
 
 function createScoreboard() {
