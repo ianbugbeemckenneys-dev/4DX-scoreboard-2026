@@ -39,9 +39,12 @@ function updateTeamProgress() {
   document.getElementById("teamHours").innerText = total;
   document.getElementById("teamPercent").innerText = percent;
 
-  // 🇺🇸 Update flag fill
-  const flagFill = document.getElementById("flagFill");
-  flagFill.style.height = percent + "%";
+  // 🇺🇸 Cinematic flag fill
+  const flag = document.getElementById("flagProgress");
+  flag.style.height = percent + "%";
+
+  // Increase glow as mission nears completion
+  flag.style.boxShadow = `0 0 ${percent / 4}px rgba(255,255,255,0.6)`;
 }
 
 function createScoreboard() {
