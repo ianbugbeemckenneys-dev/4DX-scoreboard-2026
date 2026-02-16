@@ -55,7 +55,7 @@ function createScoreboard() {
     memberDiv.className = "member";
 
     const avatar = document.createElement("img");
-    avatar.src = "seal.png";   // make sure this exists
+    avatar.src = "Navy-Seal-1.webp";   // make sure this exists
     avatar.className = "avatar";
     avatar.onclick = () => window.open(formLink, "_blank");
 
