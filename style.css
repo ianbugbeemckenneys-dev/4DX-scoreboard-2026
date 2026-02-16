@@ -16,6 +16,35 @@ h1 {
   font-weight: bold;
 }
 
+/* 🇺🇸 FLAG PROGRESS SECTION */
+
+.flag-container {
+  position: relative;
+  width: 400px;
+  margin: 0 auto 25px auto;
+}
+
+.flag-base {
+  width: 100%;
+  filter: grayscale(100%) brightness(40%);
+  border-radius: 8px;
+}
+
+.flag-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-image: url("flag.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  transition: height 0.8s ease;
+}
+
+/* Weekly Marker */
+
 .weekly-marker {
   margin-bottom: 20px;
   color: #38bdf8;
