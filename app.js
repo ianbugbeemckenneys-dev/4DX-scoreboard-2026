@@ -1,129 +1,133 @@
-/* =========================
-   CONFIGURATION
-========================= */
+const teamGoal = 350;
+const individualGoal = 35;
+const weeklyTarget = 7;
 
-// Annual target per person
-const TARGET_HOURS = 200;
+// 🔗 REPLACE WITH YOUR SMARTSHEET FORM LINK
+const formLink = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
 
-// Weekly lead-measure target (hours per week)
-const WEEKLY_TARGET = 5;
-
-// Week number in the year (1–52)
-const CURRENT_WEEK = 20;
-
-// Avatar image
-const AVATAR_URL = "https://firstliberty.org/wp-content/uploads/2021/10/Navy-Seal-1.png";
-
-/* =========================
-   TEAM DATA
-========================= */
-
-let team = [
-  { name: "Rick Rife",   hours: 120, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Liam Crabtree",   hours: 95,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Mike Welborn", hours: 80,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Ian Bugbee",   hours: 150, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Mike Chambliss",    hours: 100, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Daniel Cowan", hours: 110, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Kevin Youngblood",    hours: 90,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Phillip Norris",   hours: 70,  form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Richard Osborne",   hours: 130, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" },
-  { name: "Marcus Smith",  hours: 105, form: "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb" }
+const teamMembers = [
+  "Rick Rife",
+  "Liam Crabtree",
+  "Mike Welborn",
+  "Ian Bugbee",
+  "Mike Chambliss",
+  "Daniel Cowan",
+  "Kevin Youngblood",
+  "Phillip Norris",
+  "Richard Osborne",
+  "Marcus Smith"
 ];
 
-const board = document.getElementById("scoreboard");
+// Load saved data
+let hours = JSON.parse(localStorage.getItem("trainingHours")) || {};
+teamMembers.forEach(name => {
+  if (!hours[name]) hours[name] = 0;
+});
 
-/* =========================
-   PERSISTENCE (LOCAL)
-========================= */
-
-function load() {
-  const saved = localStorage.getItem("trainingData");
-  if (saved) team = JSON.parse(saved);
+function saveData() {
+  localStorage.setItem("trainingHours", JSON.stringify(hours));
 }
 
-function save() {
-  localStorage.setItem("trainingData", JSON.stringify(team));
+function calculateTeamTotal() {
+  return Object.values(hours).reduce((a, b) => a + b, 0);
 }
 
-/* =========================
-   RENDER UI
-========================= */
+function updateTeamProgress() {
+  const total = calculateTeamTotal();
+  const percent = ((total / teamGoal) * 100).toFixed(1);
 
-function render() {
-  board.innerHTML = "";
-  let teamPercentTotal = 0;
+  document.getElementById("teamHours").innerText = total;
+  document.getElementById("teamPercent").innerText = percent;
+}
 
-  const weeklyExpectedHours = WEEKLY_TARGET * CURRENT_WEEK;
-  const weeklyPercent = Math.min(
-    Math.round((weeklyExpectedHours / TARGET_HOURS) * 100),
-    100
-  );
+function createScoreboard() {
+  const container = document.getElementById("scoreboard");
+  container.innerHTML = "";
 
-  team.forEach((member, index) => {
-    const percent = Math.min(
-      Math.round((member.hours / TARGET_HOURS) * 100),
-      100
-    );
+  teamMembers.forEach(name => {
+    const memberDiv = document.createElement("div");
+    memberDiv.className = "member";
 
-    teamPercentTotal += percent;
+    // 🔥 Custom Avatar Image
+    const avatar = document.createElement("img");
+    avatar.src = "Navy-Seal-1.webp"; // Make sure this file exists in your repo
+    avatar.className = "avatar";
+    avatar.onclick = () => window.open(formLink, "_blank");
 
-    const row = document.createElement("div");
-    row.className = "lane";
+    const title = document.createElement("div");
+    title.className = "member-name";
+    title.innerText = name;
 
-    row.innerHTML = `
-      <span class="name">${member.name}</span>
+    const hourDisplay = document.createElement("div");
+    hourDisplay.className = "hours";
+    hourDisplay.innerText = hours[name] + " hrs";
 
-      <div class="controls">
-        <button onclick="changeHours(${index}, -1)">−</button>
-        <input type="number" min="0"
-               value="${member.hours}"
-               onchange="setHours(${index}, this.value)">
-        <button onclick="changeHours(${index}, 1)">+</button>
-      </div>
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar";
 
-      <div class="track">
-        <div class="weekly-marker" style="left:${weeklyPercent}%"></div>
+    const progress = document.createElement("div");
+    progress.className = "progress";
+    progress.style.width = (hours[name] / individualGoal * 100) + "%";
 
-        <a class="avatar"
-           href="${member.form}"
-           target="_blank"
-           title="Log training hours"
-           style="left:${percent}%">
-          <img src="${AVATAR_URL}">
-        </a>
-      </div>
+    progressBar.appendChild(progress);
 
-      <span class="percent">${percent}%</span>
-    `;
+    const plusBtn = document.createElement("button");
+    plusBtn.innerText = "+1";
+    plusBtn.className = "plus";
+    plusBtn.onclick = () => {
+      hours[name] += 1;
+      saveData();
+      createScoreboard();
+      updateTeamProgress();
+    };
 
-    board.appendChild(row);
+    const minusBtn = document.createElement("button");
+    minusBtn.innerText = "-1";
+    minusBtn.className = "minus";
+    minusBtn.onclick = () => {
+      if (hours[name] > 0) {
+        hours[name] -= 1;
+        saveData();
+        createScoreboard();
+        updateTeamProgress();
+      }
+    };
+
+    const input = document.createElement("input");
+    input.type = "number";
+    input.value = hours[name];
+    input.onchange = () => {
+      hours[name] = parseInt(input.value) || 0;
+      saveData();
+      createScoreboard();
+      updateTeamProgress();
+    };
+
+    const weeklyIndicator = document.createElement("div");
+    weeklyIndicator.className = "weekly";
+
+    if (hours[name] >= weeklyTarget) {
+      weeklyIndicator.innerText = "✔ Weekly Target Met";
+      weeklyIndicator.style.color = "#22c55e";
+    } else {
+      weeklyIndicator.innerText =
+        "Needs " + (weeklyTarget - hours[name]) + " hrs for weekly target";
+      weeklyIndicator.style.color = "#facc15";
+    }
+
+    memberDiv.appendChild(avatar);
+    memberDiv.appendChild(title);
+    memberDiv.appendChild(hourDisplay);
+    memberDiv.appendChild(progressBar);
+    memberDiv.appendChild(plusBtn);
+    memberDiv.appendChild(minusBtn);
+    memberDiv.appendChild(input);
+    memberDiv.appendChild(weeklyIndicator);
+
+    container.appendChild(memberDiv);
   });
 
-  document.getElementById("teamPercent").innerText =
-    Math.round(teamPercentTotal / team.length) + "%";
-
-  save();
+  updateTeamProgress();
 }
 
-/* =========================
-   CONTROLS
-========================= */
-
-function changeHours(index, delta) {
-  team[index].hours += delta;
-  if (team[index].hours < 0) team[index].hours = 0;
-  render();
-}
-
-function setHours(index, value) {
-  team[index].hours = Number(value) || 0;
-  render();
-}
-
-/* =========================
-   INIT
-========================= */
-
-load();
-render();
+createScoreboard();
