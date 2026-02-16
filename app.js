@@ -39,12 +39,14 @@ function updateTeamProgress() {
   document.getElementById("teamHours").innerText = total;
   document.getElementById("teamPercent").innerText = percent;
 
-  // 🇺🇸 Cinematic flag fill
-  const flag = document.getElementById("flagProgress");
-  flag.style.height = percent + "%";
+  // 🇺🇸 Proper bottom-up reveal using clip-path
+  const flag = document.getElementById("flagColor");
 
-  // Increase glow as mission nears completion
-  flag.style.boxShadow = `0 0 ${percent / 4}px rgba(255,255,255,0.6)`;
+  // 100% hidden at 0 progress
+  // 0% hidden at 100 progress
+  const hiddenAmount = 100 - percent;
+
+  flag.style.clipPath = `inset(${hiddenAmount}% 0 0 0)`;
 }
 
 function createScoreboard() {
