@@ -18,7 +18,7 @@ const teamMembers = [
   "Marcus Smith"
 ];
 
-// Load saved data
+// Load saved hours
 let hours = JSON.parse(localStorage.getItem("trainingHours")) || {};
 teamMembers.forEach(name => {
   if (!hours[name]) hours[name] = 0;
@@ -34,16 +34,13 @@ function calculateTeamTotal() {
 
 function updateTeamProgress() {
   const total = calculateTeamTotal();
-  const percent = ((total / teamGoal) * 100).toFixed(1);
+  const percent = (total / teamGoal) * 100;
 
   document.getElementById("teamHours").innerText = total;
-  document.getElementById("teamPercent").innerText = percent;
+  document.getElementById("teamPercent").innerText = percent.toFixed(1);
 
-  // 🇺🇸 Proper bottom-up reveal using clip-path
+  // 🇺🇸 Bottom-up flag reveal
   const flag = document.getElementById("flagColor");
-
-  // 100% hidden at 0 progress
-  // 0% hidden at 100 progress
   const hiddenAmount = 100 - percent;
 
   flag.style.clipPath = `inset(${hiddenAmount}% 0 0 0)`;
@@ -57,9 +54,8 @@ function createScoreboard() {
     const memberDiv = document.createElement("div");
     memberDiv.className = "member";
 
-    // 🔥 Custom Avatar Image
     const avatar = document.createElement("img");
-    avatar.src = "Navy-Seal-1.webp"; // Make sure this file exists in your repo
+    avatar.src = "seal.png";   // make sure this exists
     avatar.className = "avatar";
     avatar.onclick = () => window.open(formLink, "_blank");
 
