@@ -38,10 +38,8 @@ function updateTeamProgress() {
   document.getElementById("teamProgressText").innerText =
     `Team Progress: ${total}/350 hrs (${percent.toFixed(1)}%)`;
 
-  // 🇺🇸 Cinematic Bottom-Up Flag Reveal
-  const flag = document.getElementById("flagColor");
-  const hiddenAmount = 100 - percent;
-  flag.style.clipPath = `inset(${hiddenAmount}% 0 0 0)`;
+  // Bottom-up fill
+  document.getElementById("flagFill").style.height = percent + "%";
 }
 
 function createScoreboard() {
@@ -52,7 +50,7 @@ function createScoreboard() {
     const memberDiv = document.createElement("div");
     memberDiv.className = "member";
 
-    // Avatar (dynamic based on weekly target)
+    // Avatar
     const avatar = document.createElement("img");
     avatar.src = hours[name] >= weeklyTarget
       ? "Navy-Seal-1.webp"
@@ -61,10 +59,12 @@ function createScoreboard() {
     avatar.className = "avatar";
     avatar.onclick = () => window.open(formLink, "_blank");
 
+    // Name
     const title = document.createElement("div");
     title.className = "member-name";
     title.innerText = name;
 
+    // Hours
     const hourDisplay = document.createElement("div");
     hourDisplay.className = "hours";
     hourDisplay.innerText = hours[name] + " hrs";
@@ -80,29 +80,28 @@ function createScoreboard() {
 
     progressBar.appendChild(progress);
 
-    // +1 Button
+    // Buttons
     const plusBtn = document.createElement("button");
     plusBtn.innerText = "+1";
     plusBtn.onclick = () => {
-      hours[name] += 1;
+      hours[name]++;
       saveData();
       createScoreboard();
       updateTeamProgress();
     };
 
-    // -1 Button
     const minusBtn = document.createElement("button");
     minusBtn.innerText = "-1";
     minusBtn.onclick = () => {
       if (hours[name] > 0) {
-        hours[name] -= 1;
+        hours[name]--;
         saveData();
         createScoreboard();
         updateTeamProgress();
       }
     };
 
-    // Manual Input
+    // Input
     const input = document.createElement("input");
     input.type = "number";
     input.value = hours[name];
