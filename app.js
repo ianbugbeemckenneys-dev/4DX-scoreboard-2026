@@ -1,5 +1,5 @@
 const TEAM_GOAL = 350;
-const WEEKLY_GOAL = 10; // adjust as needed
+const WEEKLY_GOAL = 10;
 
 // 🔗 REPLACE WITH YOUR SMARTSHEET FORM LINK
 const formLink = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
@@ -30,7 +30,7 @@ function updateScoreboard() {
     const card = document.createElement("div");
     card.className = "member-card";
 
-    // ✅ Clickable Avatar Link
+    // Clickable Avatar
     const avatarLink = document.createElement("a");
     avatarLink.href = FORM_LINK;
     avatarLink.target = "_blank";
@@ -73,7 +73,8 @@ function updateTeamProgress() {
   const percent = Math.min((totalHours / TEAM_GOAL) * 100, 100);
 
   const progressText = document.getElementById("team-progress-text");
-  progressText.textContent = `Team Progress: ${totalHours}/350 hrs (${percent.toFixed(1)}%)`;
+  progressText.textContent =
+    `Team Progress: ${totalHours}/350 hrs (${percent.toFixed(1)}%)`;
 
   const flagFill = document.getElementById("flag-fill");
   flagFill.style.height = percent + "%";
