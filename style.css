@@ -7,6 +7,10 @@ body {
   padding: 0;
 }
 
+h1 {
+  margin-top: 20px;
+}
+
 /* ============================= */
 /* SCOREBOARD */
 /* ============================= */
@@ -15,14 +19,15 @@ body {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-top: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 .member-card {
   background: #161b22;
   padding: 20px;
   border-radius: 12px;
-  width: 180px;
+  width: 200px;
   box-shadow: 0 0 15px rgba(0,0,0,0.6);
 }
 
@@ -31,6 +36,12 @@ body {
   height: 100px;
   object-fit: contain;
   margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
 }
 
 button {
@@ -40,6 +51,7 @@ button {
   color: white;
   border-radius: 6px;
   cursor: pointer;
+  margin-top: 8px;
 }
 
 button:hover {
@@ -60,13 +72,12 @@ button:hover {
 }
 
 /* ============================= */
-/* FLAG CINEMATIC FILL */
+/* CINEMATIC FLAG FILL */
 /* ============================= */
 
 .flag-wrapper {
   position: relative;
   width: 400px;
-  height: auto;
   margin: 0 auto;
 }
 
