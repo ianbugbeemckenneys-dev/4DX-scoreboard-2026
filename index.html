@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Sales Team 6 Training Hours</title>
+  <title>Team Scoreboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Sales Team 6 Training Hours</h1>
+<h1>Team Weekly Scoreboard</h1>
 
-  <!-- TEAM PROGRESS -->
-  <div class="team-progress">
-    <div id="teamProgressText"></div>
+<div class="flagWrapper">
+  <img 
+    src="Flag_of_the_United_States.png" 
+    class="flagBase"
+  />
 
-    <div class="flag-container">
-      <div class="flag flag-grey"></div>
-      <div id="flagColor" class="flag flag-color"></div>
+  <div class="flagFillContainer">
+    <div class="flagFill" id="flagFill">
+      <img src="Flag_of_the_United_States.png">
     </div>
   </div>
+</div>
 
-  <!-- SCOREBOARD -->
-  <div id="scoreboard"></div>
+<div id="teamContainer"></div>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
+
 </body>
 </html>
