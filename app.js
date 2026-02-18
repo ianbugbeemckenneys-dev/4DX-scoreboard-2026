@@ -38,8 +38,10 @@ function updateTeamProgress() {
   document.getElementById("teamProgressText").innerText =
     `Team Progress: ${total}/350 hrs (${percent.toFixed(1)}%)`;
 
-  // Bottom-up fill
-  document.getElementById("flagFill").style.height = percent + "%";
+  // Cinematic bottom-up reveal
+  const hiddenAmount = 100 - percent;
+  document.getElementById("flagColor").style.clipPath =
+    `inset(${hiddenAmount}% 0 0 0)`;
 }
 
 function createScoreboard() {
@@ -55,7 +57,6 @@ function createScoreboard() {
     avatar.src = hours[name] >= weeklyTarget
       ? "Navy-Seal-1.webp"
       : "Skull_and_Crossbones.png";
-
     avatar.className = "avatar";
     avatar.onclick = () => window.open(formLink, "_blank");
 
@@ -64,12 +65,12 @@ function createScoreboard() {
     title.className = "member-name";
     title.innerText = name;
 
-    // Hours
+    // Hours display
     const hourDisplay = document.createElement("div");
     hourDisplay.className = "hours";
     hourDisplay.innerText = hours[name] + " hrs";
 
-    // Progress Bar
+    // Individual progress bar
     const progressBar = document.createElement("div");
     progressBar.className = "progress-bar";
 
@@ -101,7 +102,7 @@ function createScoreboard() {
       }
     };
 
-    // Input
+    // Manual input
     const input = document.createElement("input");
     input.type = "number";
     input.value = hours[name];
@@ -113,7 +114,7 @@ function createScoreboard() {
       updateTeamProgress();
     };
 
-    // Weekly Indicator
+    // Weekly indicator
     const weeklyIndicator = document.createElement("div");
     weeklyIndicator.className = "weekly";
 
