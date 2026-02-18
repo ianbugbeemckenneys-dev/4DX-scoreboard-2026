@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Sales Team 6 Training Hours</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -8,25 +9,24 @@
 
   <h1>Sales Team 6 Training Hours</h1>
 
-  <div id="team-progress">
-    Team Progress: 
-    <span id="teamHours">0</span>/350 hrs 
-    (<span id="teamPercent">0</span>%)
+  <!-- TEAM PROGRESS SECTION -->
+  <div id="team-progress-container">
+    <div id="team-progress-text"></div>
+
+    <div class="flag-wrapper">
+      <!-- Grey Base Flag -->
+      <img src="Flag_of_the_United_States.png" class="flag-base">
+
+      <!-- Color Fill -->
+      <div id="flag-fill" class="flag-fill">
+        <img src="Flag_of_the_United_States.png">
+      </div>
+    </div>
   </div>
 
-  <!-- 🇺🇸 FLAG SECTION -->
-  <div class="flag-wrapper">
-    <img src="Flag_of_the_United_States.png" class="flag-grey">
-    <img src="Flag_of_the_United_States.png" class="flag-color" id="flagColor">
-  </div>
-
-  <div class="weekly-marker">
-    Weekly Lead Measure Target: 7 hrs per person
-  </div>
-
+  <!-- SCOREBOARD -->
   <div id="scoreboard"></div>
 
   <script src="app.js"></script>
-
 </body>
 </html>
