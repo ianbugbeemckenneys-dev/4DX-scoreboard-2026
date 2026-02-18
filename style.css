@@ -1,153 +1,92 @@
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #0b1220;
+  background-color: #0d1117;
   color: white;
+  text-align: center;
   margin: 0;
   padding: 0;
 }
 
-h1 {
-  margin-top: 20px;
-  font-size: 28px;
-}
+/* ============================= */
+/* SCOREBOARD */
+/* ============================= */
 
-#team-progress {
-  font-size: 22px;
-  margin: 20px;
-  font-weight: bold;
-}
-
-/* 🇺🇸 FLAG PROGRESS SYSTEM */
-
-.flag-wrapper {
-  position: relative;
-  width: 420px;
-  max-width: 90%;
-  margin: 0 auto 30px auto;
-  overflow: hidden;
-  border-radius: 10px;
-  animation: wave 6s ease-in-out infinite;
-}
-
-.flag-grey,
-.flag-color {
-  width: 100%;
-  display: block;
-  border-radius: 10px;
-}
-
-/* Grey base */
-.flag-grey {
-  filter: grayscale(100%) brightness(45%);
-}
-
-/* Color overlay */
-.flag-color {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  /* Start fully hidden */
-  clip-path: inset(100% 0 0 0);
-
-  transition: clip-path 1s ease;
-}
-
-/* Subtle wave animation */
-@keyframes wave {
-  0% { transform: translateX(0px); }
-  50% { transform: translateX(3px); }
-  100% { transform: translateX(0px); }
-}
-
-/* Weekly Marker */
-.weekly-marker {
-  margin-bottom: 20px;
-  color: #38bdf8;
-  font-weight: bold;
-}
-
-/* Scoreboard */
 #scoreboard {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
 }
 
-.member {
-  background: #1e293b;
+.member-card {
+  background: #161b22;
+  padding: 20px;
   border-radius: 12px;
-  padding: 15px;
-  margin: 10px;
-  width: 230px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-}
-
-.member-name {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.hours {
-  margin-top: 5px;
-  font-size: 16px;
+  width: 180px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
 }
 
 .avatar {
-  width: 80px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.avatar:hover {
-  transform: scale(1.1);
-}
-
-.progress-bar {
-  height: 10px;
-  background: #334155;
-  border-radius: 5px;
-  margin: 10px 0;
-  overflow: hidden;
-}
-
-.progress {
-  height: 10px;
-  background: #22c55e;
-  width: 0%;
-  transition: width 0.3s ease;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
 
 button {
-  margin: 5px;
-  padding: 5px 10px;
+  background: #1f6feb;
   border: none;
-  border-radius: 5px;
+  padding: 8px 12px;
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
 }
 
-.plus {
-  background: #16a34a;
-  color: white;
+button:hover {
+  background: #388bfd;
 }
 
-.minus {
-  background: #dc2626;
-  color: white;
+/* ============================= */
+/* TEAM PROGRESS */
+/* ============================= */
+
+#team-progress-container {
+  margin-top: 40px;
 }
 
-input {
-  width: 60px;
-  text-align: center;
-  margin-top: 5px;
-  border-radius: 4px;
-  border: none;
-  padding: 3px;
+#team-progress-text {
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
-.weekly {
-  margin-top: 8px;
-  font-size: 12px;
+/* ============================= */
+/* FLAG CINEMATIC FILL */
+/* ============================= */
+
+.flag-wrapper {
+  position: relative;
+  width: 400px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.flag-base {
+  width: 100%;
+  display: block;
+  filter: grayscale(100%);
+}
+
+.flag-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  overflow: hidden;
+  transition: height 1s ease-in-out;
+}
+
+.flag-fill img {
+  width: 100%;
+  display: block;
 }
