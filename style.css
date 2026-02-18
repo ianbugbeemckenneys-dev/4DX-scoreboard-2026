@@ -22,7 +22,7 @@ h1 {
   background: #161b22;
   padding: 20px;
   border-radius: 12px;
-  width: 220px;
+  width: 230px;
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
@@ -50,7 +50,7 @@ h1 {
 .progress-bar {
   background: #333;
   border-radius: 6px;
-  height: 10px;
+  height: 12px;
   margin: 10px 0;
 }
 
@@ -63,7 +63,7 @@ h1 {
 
 button {
   margin: 5px 3px;
-  padding: 5px 10px;
+  padding: 6px 10px;
   border: none;
   border-radius: 5px;
   background: #1f6feb;
@@ -76,7 +76,7 @@ button:hover {
 }
 
 .hour-input {
-  width: 60px;
+  width: 70px;
   text-align: center;
   margin-top: 5px;
 }
@@ -86,7 +86,7 @@ button:hover {
   font-size: 14px;
 }
 
-/* Team Progress */
+/* TEAM PROGRESS */
 
 .team-progress {
   margin-top: 40px;
@@ -97,7 +97,7 @@ button:hover {
   margin-bottom: 20px;
 }
 
-.flag-container {
+.flag-wrapper {
   position: relative;
   width: 400px;
   margin: 0 auto;
@@ -109,11 +109,17 @@ button:hover {
   display: block;
 }
 
-.flag-color {
+.flag-fill {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 1s ease-in-out;
+  height: 0%;
+  overflow: hidden;
+  transition: height 1s ease-in-out;
+}
+
+.flag-fill img {
+  width: 100%;
+  display: block;
 }
