@@ -12,12 +12,13 @@ h1 {
 }
 
 /* ===============================
-   FLAG SECTION
+   FLAG
 =============================== */
 
 .flagWrapper {
   position: relative;
-  width: 400px;
+  width: 500px;
+  max-width: 90%;
   margin: 20px auto;
 }
 
@@ -52,7 +53,7 @@ h1 {
 }
 
 /* ===============================
-   TEAM SECTION
+   TEAM
 =============================== */
 
 #teamContainer {
@@ -67,7 +68,7 @@ h1 {
   background: #1c1c1c;
   padding: 15px;
   border-radius: 10px;
-  width: 180px;
+  width: 220px;
 }
 
 .avatar {
@@ -82,7 +83,7 @@ h1 {
   font-weight: bold;
 }
 
-.hours {
+.hoursDisplay {
   margin: 5px 0;
 }
 
@@ -92,11 +93,42 @@ h1 {
   background: #333;
   border-radius: 6px;
   overflow: hidden;
+  margin: 8px 0;
 }
 
 .progressFill {
   height: 100%;
   background: limegreen;
-  width: 0%;
   transition: width 0.5s ease-in-out;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.controls button {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.hourInput {
+  width: 60px;
+  text-align: center;
+}
+
+.weeklyStatus {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.metGoal {
+  color: #00ff7f;
+}
+
+.needsGoal {
+  color: #ffcc00;
 }
