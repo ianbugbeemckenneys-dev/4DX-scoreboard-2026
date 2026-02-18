@@ -1,82 +1,145 @@
-const TEAM_GOAL = 350;
-const WEEKLY_GOAL = 10;
+const teamGoal = 350;
+const individualGoal = 35;
+const weeklyTarget = 7;
 
-const FORM_LINK = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
+const formLink = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
 
-let teamMembers = [
-  { name: "Rick Rife", hours: 0 },
-  { name: "Liam Crabtree", hours: 0 },
-  { name: "Mike Welborn", hours: 0 },
-  { name: "Ian Bugbee", hours: 0 },
-  { name: "Mike Chambliss", hours: 0 },
-  { name: "Daniel Cowan", hours: 0 },
-  { name: "Kevin Youngblood", hours: 0 },
-  { name: "Phillip Norris", hours: 0 },
-  { name: "Richard Osborne", hours: 0 },
-  { name: "Marcus Smith", hours: 0 }
+const teamMembers = [
+  "Rick Rife",
+  "Liam Crabtree",
+  "Mike Welborn",
+  "Ian Bugbee",
+  "Mike Chambliss",
+  "Daniel Cowan",
+  "Kevin Youngblood",
+  "Phillip Norris",
+  "Richard Osborne",
+  "Marcus Smith"
 ];
 
-function updateDisplay() {
-  updateScoreboard();
-  updateTeamProgress();
+// Load saved hours
+let hours = JSON.parse(localStorage.getItem("trainingHours")) || {};
+teamMembers.forEach(name => {
+  if (!hours[name]) hours[name] = 0;
+});
+
+function saveData() {
+  localStorage.setItem("trainingHours", JSON.stringify(hours));
 }
 
-function updateScoreboard() {
-  const board = document.getElementById("scoreboard");
-  board.innerHTML = "";
-
-  teamMembers.forEach((member) => {
-    const card = document.createElement("div");
-    card.className = "member-card";
-
-    // Clickable Avatar
-    const avatarLink = document.createElement("a");
-    avatarLink.href = FORM_LINK;
-    avatarLink.target = "_blank";
-
-    const avatar = document.createElement("img");
-    avatar.className = "avatar";
-
-    if (member.hours >= WEEKLY_GOAL) {
-      avatar.src = "Navy-Seal-1.webp";
-    } else {
-      avatar.src = "Skull_and_Crossbones.png";
-    }
-
-    avatarLink.appendChild(avatar);
-
-    const name = document.createElement("h3");
-    name.textContent = member.name;
-
-    const hours = document.createElement("p");
-    hours.textContent = `${member.hours} hrs`;
-
-    const addBtn = document.createElement("button");
-    addBtn.textContent = "+1 Hour";
-    addBtn.onclick = () => {
-      member.hours++;
-      updateDisplay();
-    };
-
-    card.appendChild(avatarLink);
-    card.appendChild(name);
-    card.appendChild(hours);
-    card.appendChild(addBtn);
-
-    board.appendChild(card);
-  });
+function calculateTeamTotal() {
+  return Object.values(hours).reduce((a, b) => a + b, 0);
 }
 
 function updateTeamProgress() {
-  const totalHours = teamMembers.reduce((sum, m) => sum + m.hours, 0);
-  const percent = Math.min((totalHours / TEAM_GOAL) * 100, 100);
+  const total = calculateTeamTotal();
+  const percent = Math.min((total / teamGoal) * 100, 100);
 
-  const progressText = document.getElementById("team-progress-text");
-  progressText.textContent =
-    `Team Progress: ${totalHours}/350 hrs (${percent.toFixed(1)}%)`;
+  document.getElementById("teamProgressText").innerText =
+    `Team Progress: ${total}/350 hrs (${percent.toFixed(1)}%)`;
 
-  const flagFill = document.getElementById("flag-fill");
-  flagFill.style.height = percent + "%";
+  // 🇺🇸 Cinematic Bottom-Up Flag Reveal
+  const flag = document.getElementById("flagColor");
+  const hiddenAmount = 100 - percent;
+  flag.style.clipPath = `inset(${hiddenAmount}% 0 0 0)`;
 }
 
-updateDisplay();
+function createScoreboard() {
+  const container = document.getElementById("scoreboard");
+  container.innerHTML = "";
+
+  teamMembers.forEach(name => {
+    const memberDiv = document.createElement("div");
+    memberDiv.className = "member";
+
+    // Avatar (dynamic based on weekly target)
+    const avatar = document.createElement("img");
+    avatar.src = hours[name] >= weeklyTarget
+      ? "Navy-Seal-1.webp"
+      : "Skull_and_Crossbones.png";
+
+    avatar.className = "avatar";
+    avatar.onclick = () => window.open(formLink, "_blank");
+
+    const title = document.createElement("div");
+    title.className = "member-name";
+    title.innerText = name;
+
+    const hourDisplay = document.createElement("div");
+    hourDisplay.className = "hours";
+    hourDisplay.innerText = hours[name] + " hrs";
+
+    // Progress Bar
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar";
+
+    const progress = document.createElement("div");
+    progress.className = "progress";
+    progress.style.width =
+      Math.min((hours[name] / individualGoal) * 100, 100) + "%";
+
+    progressBar.appendChild(progress);
+
+    // +1 Button
+    const plusBtn = document.createElement("button");
+    plusBtn.innerText = "+1";
+    plusBtn.onclick = () => {
+      hours[name] += 1;
+      saveData();
+      createScoreboard();
+      updateTeamProgress();
+    };
+
+    // -1 Button
+    const minusBtn = document.createElement("button");
+    minusBtn.innerText = "-1";
+    minusBtn.onclick = () => {
+      if (hours[name] > 0) {
+        hours[name] -= 1;
+        saveData();
+        createScoreboard();
+        updateTeamProgress();
+      }
+    };
+
+    // Manual Input
+    const input = document.createElement("input");
+    input.type = "number";
+    input.value = hours[name];
+    input.className = "hour-input";
+    input.onchange = () => {
+      hours[name] = parseInt(input.value) || 0;
+      saveData();
+      createScoreboard();
+      updateTeamProgress();
+    };
+
+    // Weekly Indicator
+    const weeklyIndicator = document.createElement("div");
+    weeklyIndicator.className = "weekly";
+
+    if (hours[name] >= weeklyTarget) {
+      weeklyIndicator.innerText = "✔ Weekly Target Met";
+      weeklyIndicator.style.color = "#22c55e";
+    } else {
+      weeklyIndicator.innerText =
+        `Needs ${weeklyTarget - hours[name]} hrs for weekly target`;
+      weeklyIndicator.style.color = "#facc15";
+    }
+
+    memberDiv.appendChild(avatar);
+    memberDiv.appendChild(title);
+    memberDiv.appendChild(hourDisplay);
+    memberDiv.appendChild(progressBar);
+    memberDiv.appendChild(plusBtn);
+    memberDiv.appendChild(minusBtn);
+    memberDiv.appendChild(input);
+    memberDiv.appendChild(weeklyIndicator);
+
+    container.appendChild(memberDiv);
+  });
+
+  updateTeamProgress();
+}
+
+createScoreboard();
