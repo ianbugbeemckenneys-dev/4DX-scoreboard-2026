@@ -2,6 +2,7 @@
 // CONFIG
 // ===============================
 const WEEKLY_GOAL = 40;
+const FORM_LINK = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
 
 const TEAM_MEMBERS = [
   "Rick Rife",
@@ -16,21 +17,18 @@ const TEAM_MEMBERS = [
   "Marcus Smith"
 ];
 
-const FORM_LINK = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
+// ===============================
+// LOAD / SAVE
+// ===============================
+let teamHours = JSON.parse(localStorage.getItem("teamHours")) || {};
 
-// Example demo hours (replace with real data later)
-let teamHours = {
-  "Rick Rife": 42,
-  "Liam Crabtree": 35,
-  "Mike Welborn": 38,
-  "Ian Bugbee": 45,
-  "Mike Chambliss": 30,
-  "Daniel Cowan": 40,
-  "Kevin Youngblood": 28,
-  "Phillip Norris": 41,
-  "Richard Osborne": 37,
-  "Marcus Smith": 33
-};
+TEAM_MEMBERS.forEach(name => {
+  if (!teamHours[name]) teamHours[name] = 0;
+});
+
+function saveData() {
+  localStorage.setItem("teamHours", JSON.stringify(teamHours));
+}
 
 // ===============================
 // FLAG PROGRESS
@@ -51,7 +49,7 @@ function renderTeam() {
   container.innerHTML = "";
 
   TEAM_MEMBERS.forEach(name => {
-    const hours = teamHours[name] || 0;
+    const hours = teamHours[name];
     const percent = Math.min((hours / WEEKLY_GOAL) * 100, 100);
     const metGoal = hours >= WEEKLY_GOAL;
 
@@ -66,12 +64,54 @@ function renderTeam() {
           alt="${name}"
         />
       </a>
+
       <div class="memberName">${name}</div>
-      <div class="hours">${hours} hrs</div>
+
+      <div class="hoursDisplay">${hours} hrs</div>
+
       <div class="progressBar">
         <div class="progressFill" style="width:${percent}%"></div>
       </div>
+
+      <div class="controls">
+        <button class="minusBtn">-1</button>
+        <input type="number" class="hourInput" value="${hours}" min="0">
+        <button class="plusBtn">+1</button>
+      </div>
+
+      <div class="weeklyStatus">
+        ${
+          metGoal
+            ? `<span class="metGoal">✔ Weekly Goal Met</span>`
+            : `<span class="needsGoal">Needs ${WEEKLY_GOAL - hours} hrs</span>`
+        }
+      </div>
     `;
+
+    // Button functionality
+    const minusBtn = card.querySelector(".minusBtn");
+    const plusBtn = card.querySelector(".plusBtn");
+    const input = card.querySelector(".hourInput");
+
+    minusBtn.onclick = () => {
+      if (teamHours[name] > 0) {
+        teamHours[name]--;
+        saveData();
+        renderTeam();
+      }
+    };
+
+    plusBtn.onclick = () => {
+      teamHours[name]++;
+      saveData();
+      renderTeam();
+    };
+
+    input.onchange = () => {
+      teamHours[name] = parseInt(input.value) || 0;
+      saveData();
+      renderTeam();
+    };
 
     container.appendChild(card);
   });
