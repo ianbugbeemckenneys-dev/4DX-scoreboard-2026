@@ -1,7 +1,8 @@
 // ===============================
 // CONFIG
 // ===============================
-const WEEKLY_GOAL = 40;
+const weeklyTarget = 7;
+const TEAM_GOAL = 350;
 const FORM_LINK = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
 
 const TEAM_MEMBERS = [
@@ -20,31 +21,27 @@ const TEAM_MEMBERS = [
 // ===============================
 // LOAD / SAVE
 // ===============================
-let teamHours = JSON.parse(localStorage.getItem("teamHours")) || {};
+let hours = JSON.parse(localStorage.getItem("teamHours")) || {};
 
 TEAM_MEMBERS.forEach(name => {
-  if (teamHours[name] === undefined) teamHours[name] = 0;
+  if (hours[name] === undefined) hours[name] = 0;
 });
 
 function saveData() {
-  localStorage.setItem("teamHours", JSON.stringify(teamHours));
+  localStorage.setItem("teamHours", JSON.stringify(hours));
 }
 
 // ===============================
-// TEAM TOTAL + FLAG
+// TEAM PROGRESS + FLAG
 // ===============================
-function updateTotalsAndFlag() {
-  const totalHours = Object.values(teamHours).reduce((a, b) => a + b, 0);
-  const maxHours = TEAM_MEMBERS.length * WEEKLY_GOAL;
-  const percent = Math.min((totalHours / maxHours) * 100, 100);
+function updateTeamProgress() {
+  const total = Object.values(hours).reduce((a, b) => a + b, 0);
+  const percent = Math.min((total / TEAM_GOAL) * 100, 100);
 
-  document.getElementById("totalHours").innerText =
-    `Team Total: ${totalHours} / ${maxHours} hrs`;
+  document.getElementById("teamHours").innerText = total;
+  document.getElementById("teamPercent").innerText = percent.toFixed(1);
 
-  document.getElementById("totalPercent").innerText =
-    `${percent.toFixed(1)}% of Weekly Goal`;
-
-  // TRUE bottom-up fill using clip-path
+  // True bottom-up color reveal
   const flag = document.getElementById("flagColor");
   flag.style.clipPath = `inset(${100 - percent}% 0 0 0)`;
 }
@@ -57,9 +54,9 @@ function renderTeam() {
   container.innerHTML = "";
 
   TEAM_MEMBERS.forEach(name => {
-    const hours = teamHours[name];
-    const percent = Math.min((hours / WEEKLY_GOAL) * 100, 100);
-    const metGoal = hours >= WEEKLY_GOAL;
+
+    const percentIndividual = Math.min((hours[name] / weeklyTarget) * 100, 100);
+    const metWeekly = hours[name] >= weeklyTarget;
 
     const card = document.createElement("div");
     card.className = "memberCard";
@@ -68,53 +65,61 @@ function renderTeam() {
       <a href="${FORM_LINK}" target="_blank">
         <img 
           class="avatar" 
-          src="${metGoal ? "Navy-Seal-1.webp" : "Skull_and_Crossbones.png"}"
+          src="${metWeekly ? "Navy-Seal-1.webp" : "Skull_and_Crossbones.png"}"
           alt="${name}"
         />
       </a>
 
       <div class="memberName">${name}</div>
-      <div class="hoursDisplay">${hours} hrs</div>
+      <div class="hoursDisplay">${hours[name]} hrs</div>
 
       <div class="progressBar">
-        <div class="progressFill" style="width:${percent}%"></div>
+        <div class="progressFill" style="width:${percentIndividual}%"></div>
       </div>
 
       <div class="controls">
         <button class="minusBtn">-1</button>
-        <input type="number" class="hourInput" value="${hours}" min="0">
+        <input type="number" class="hourInput" value="${hours[name]}" min="0">
         <button class="plusBtn">+1</button>
-      </div>
-
-      <div class="weeklyStatus">
-        ${
-          metGoal
-            ? `<span class="metGoal">✔ Weekly Goal Met</span>`
-            : `<span class="needsGoal">Needs ${WEEKLY_GOAL - hours} hrs</span>`
-        }
       </div>
     `;
 
+    // Weekly Indicator (your exact requested version)
+    const weeklyIndicator = document.createElement("div");
+    weeklyIndicator.className = "weekly";
+
+    if (hours[name] >= weeklyTarget) {
+      weeklyIndicator.innerText = "✔ Weekly Target Met";
+      weeklyIndicator.style.color = "#22c55e";
+    } else {
+      weeklyIndicator.innerText =
+        "Needs " + (weeklyTarget - hours[name]) + " hrs for weekly target";
+      weeklyIndicator.style.color = "#facc15";
+    }
+
+    card.appendChild(weeklyIndicator);
+
+    // Controls
     const minusBtn = card.querySelector(".minusBtn");
     const plusBtn = card.querySelector(".plusBtn");
     const input = card.querySelector(".hourInput");
 
     minusBtn.onclick = () => {
-      if (teamHours[name] > 0) {
-        teamHours[name]--;
+      if (hours[name] > 0) {
+        hours[name]--;
         saveData();
         renderTeam();
       }
     };
 
     plusBtn.onclick = () => {
-      teamHours[name]++;
+      hours[name]++;
       saveData();
       renderTeam();
     };
 
     input.onchange = () => {
-      teamHours[name] = parseInt(input.value) || 0;
+      hours[name] = parseInt(input.value) || 0;
       saveData();
       renderTeam();
     };
@@ -122,7 +127,7 @@ function renderTeam() {
     container.appendChild(card);
   });
 
-  updateTotalsAndFlag();
+  updateTeamProgress();
 }
 
 // ===============================
