@@ -23,7 +23,7 @@ const TEAM_MEMBERS = [
 let teamHours = JSON.parse(localStorage.getItem("teamHours")) || {};
 
 TEAM_MEMBERS.forEach(name => {
-  if (!teamHours[name]) teamHours[name] = 0;
+  if (teamHours[name] === undefined) teamHours[name] = 0;
 });
 
 function saveData() {
@@ -31,14 +31,22 @@ function saveData() {
 }
 
 // ===============================
-// FLAG PROGRESS
+// TEAM TOTAL + FLAG
 // ===============================
-function updateFlagProgress() {
+function updateTotalsAndFlag() {
   const totalHours = Object.values(teamHours).reduce((a, b) => a + b, 0);
   const maxHours = TEAM_MEMBERS.length * WEEKLY_GOAL;
   const percent = Math.min((totalHours / maxHours) * 100, 100);
 
-  document.getElementById("flagFill").style.height = percent + "%";
+  document.getElementById("totalHours").innerText =
+    `Team Total: ${totalHours} / ${maxHours} hrs`;
+
+  document.getElementById("totalPercent").innerText =
+    `${percent.toFixed(1)}% of Weekly Goal`;
+
+  // TRUE bottom-up fill using clip-path
+  const flag = document.getElementById("flagColor");
+  flag.style.clipPath = `inset(${100 - percent}% 0 0 0)`;
 }
 
 // ===============================
@@ -66,7 +74,6 @@ function renderTeam() {
       </a>
 
       <div class="memberName">${name}</div>
-
       <div class="hoursDisplay">${hours} hrs</div>
 
       <div class="progressBar">
@@ -88,7 +95,6 @@ function renderTeam() {
       </div>
     `;
 
-    // Button functionality
     const minusBtn = card.querySelector(".minusBtn");
     const plusBtn = card.querySelector(".plusBtn");
     const input = card.querySelector(".hourInput");
@@ -116,7 +122,7 @@ function renderTeam() {
     container.appendChild(card);
   });
 
-  updateFlagProgress();
+  updateTotalsAndFlag();
 }
 
 // ===============================
