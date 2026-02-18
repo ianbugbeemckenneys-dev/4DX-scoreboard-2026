@@ -1,20 +1,19 @@
 const TEAM_GOAL = 350;
 const WEEKLY_GOAL = 10;
 
-// 🔗 REPLACE WITH YOUR SMARTSHEET FORM LINK
-const formLink = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
+const FORM_LINK = "https://app.smartsheet.com/b/form/03ecfd8c10e14224a2ceae41b3852bcb";
 
-const teamMembers = [
-  "Rick Rife",
-  "Liam Crabtree",
-  "Mike Welborn",
-  "Ian Bugbee",
-  "Mike Chambliss",
-  "Daniel Cowan",
-  "Kevin Youngblood",
-  "Phillip Norris",
-  "Richard Osborne",
-  "Marcus Smith"
+let teamMembers = [
+  { name: "Rick Rife", hours: 0 },
+  { name: "Liam Crabtree", hours: 0 },
+  { name: "Mike Welborn", hours: 0 },
+  { name: "Ian Bugbee", hours: 0 },
+  { name: "Mike Chambliss", hours: 0 },
+  { name: "Daniel Cowan", hours: 0 },
+  { name: "Kevin Youngblood", hours: 0 },
+  { name: "Phillip Norris", hours: 0 },
+  { name: "Richard Osborne", hours: 0 },
+  { name: "Marcus Smith", hours: 0 }
 ];
 
 function updateDisplay() {
